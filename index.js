@@ -1,17 +1,18 @@
+const LENGTH = 5;
+
 let words = require("an-array-of-english-words")
 
-let bannedChars = "agnyrwsld"
+let bannedChars = "weisa"
 
 let requiredChars = [
-    {letter: 'o', notSlots: [3]}
+    {letter: 'd', notSlots: [3, 2]},
+    {letter: 't', notSlots: [3]}
 ]
 
-let setWords = [
-    'b', null, 'o', null, null
-]
+let setWords = "____h"
 
 let matching = words.filter(string => {
-    if (string.length != 5) {
+    if (string.length != LENGTH) {
         return false
     }
 
@@ -36,15 +37,26 @@ let matching = words.filter(string => {
             return false
         }
 
+        while (setWords[index] == word) {
+            index = string.indexOf(word, index + 1)
+            
+            if (index == -1) {
+                return false
+            }
+        }
+
         if (bannedSlots.indexOf(index) != -1) {
+            return false
+        }
+        if (setWords[index] != '_') {
             return false
         }
     }
 
-    for (let i in setWords) {
+    for (let i = 0; i < LENGTH; i++) {
         let ch = setWords[i]
 
-        if (ch == null || ch == undefined) {
+        if (ch == '_') {
             continue
         }
 
